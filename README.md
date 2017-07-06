@@ -1,0 +1,2 @@
+# webda-browser-compatibility-component
+
