@@ -63,6 +63,7 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
     }
     if (this.minAgents.length === 0) {
       this.compatibility = true;
+      return;
     }
     for (var k in this.minAgents) {
       if (this.minAgents[k].name === this.detectedBrowser.name
