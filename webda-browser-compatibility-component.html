@@ -53,11 +53,10 @@
         };
       }
       _showToast() {
-        if (!this.compatibility) {
-          this.$.toast.show(
-            {text: this.warningMsg}
-          );
+        if (this.compatibility) {
+          return;
         }
+        this.$.toast.show({text: this.warningMsg});
       }
       _closeToast() {
         this.$.toast.close();
