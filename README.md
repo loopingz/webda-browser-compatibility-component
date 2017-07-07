@@ -1,21 +1,47 @@
 # \<webda-browser-compatibility-component\>
 
-display paper-toast if the client-browser doesn&#39;t match defined requirements
+Project name:
 
-## Install the Polymer-CLI
+ - webda-browser-compatibility-component from http://webda.io/
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+Description:
 
-## Viewing Your Element
+ - polymer component that display a paper-toast message if the client-browser doesn't match your requirements
 
-```
-$ polymer serve
-```
+Installation: bower install --save webda-browser-compatibility-component
 
-## Running Tests
+Usage:
 
-```
-$ polymer test
-```
+ - Define your requirements by editing the bannedAgents and/or minAgents values in webda-browser-compatibility-mixin.html:
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+        bannedAgents : {
+            type: Object,
+            value : [
+              {name: "Chrome", untilVersion: "59.0.3071.114"},
+              {name: "MSIE" , untilVersion: "42"}
+            ]
+        },
+        minAgents : {
+            type: Object,
+            value : [
+              {name: "Chrome", minVersion: "59.0.3071.116"},
+              {name: "Firefox" , minVersion: "42"},
+            ]
+        }
+
+ - Change the warningMsg value in webda-browser-compatibility-component.html to display the message you want:
+
+       warningMsg: {
+         type: String,
+         value: 'Your browser is not supported'
+       }
+
+- Feel free to style the <paper-toast> or use an another component  
+
+
+Credits:
+ - loopingz https://github.com/loopingz
+ - 8llouch  https://github.com/8llouch
+
+External library:
+ - faisalman ua-parser-js  https://github.com/faisalman/ua-parser-js

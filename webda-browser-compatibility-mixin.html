@@ -27,7 +27,7 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
     this._browserVersionAnalysis();
   }
 
-  //adapted from Alexey Bass
+  //adapted from Alexey Bass ---------------------------------------------------------------------
 
   _versionCompare (left, right) {
       if (typeof(left) != 'string' || typeof(right) != 'string') {
@@ -49,6 +49,7 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
 
       return 0;
   }
+  //-----------------------------------------------------------------------------------------------
 
   _getBrowser() {
     return new UAParser().getBrowser();
