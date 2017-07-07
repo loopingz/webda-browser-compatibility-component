@@ -10,7 +10,7 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
         type: Boolean,
         notify: true
       },
-      bannedAgents : {
+      banAgents : {
         type: Object,
         value : []
       },
@@ -49,19 +49,22 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
       return 0;
   }
 
+  _getBrowser() {
+    return new UAParser().getBrowser();
+  }
+
   _browserVersionAnalysis () {
 
-    this.detectedBrowser = new UAParser().getBrowser();
+    this.detectedBrowser = this._getBrowser();
 
-    for (var j in this.bannedAgents) {
-
-      if (this.bannedAgents[j].name === this.detectedBrowser.name
-        && this._versionCompare(this.detectedBrowser.version, this.bannedAgents[j].untilVersion) < 0) {
+    for (var j in this.banAgents) {
+      if (this.banAgents[j].name === this.detectedBrowser.name
+        && (this.banAgents[j].untilVersion === undefined || this._versionCompare(this.detectedBrowser.version, this.banAgents[j].untilVersion) < 0)) {
         this.compatibility = false;
         return;
       }
     }
-    if (this.minAgents.length === 0) {
+    if (!this.minAgents || this.minAgents.length === 0) {
       this.compatibility = true;
       return;
     }

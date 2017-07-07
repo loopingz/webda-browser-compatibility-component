@@ -19,9 +19,15 @@
       </template>
     </test-fixture>
 
-    <test-fixture id="ChangedPropertyTestFixture">
+    <test-fixture id="MinAgentTestFixture">
       <template>
-        <webda-browser-compatibility-component prop1="new-prop1"></webda-browser-compatibility-component>
+        <webda-browser-compatibility-component min-agents='[{"name": "none", "minVersion": "1.0.1"}]'></webda-browser-compatibility-component>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="BanAgentTestFixture">
+      <template>
+        <webda-browser-compatibility-component ban-agents='[{"name": "none", "untilVersion": "1.0.1"}]'></webda-browser-compatibility-component>
       </template>
     </test-fixture>
 
@@ -30,21 +36,63 @@
 
         test('instantiating the element with default properties works', function() {
           var element = fixture('BasicTestFixture');
-          assert.equal(element.prop1, 'webda-browser-compatibility-component');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello webda-browser-compatibility-component!');
+          assert.equal(element.compatibility, true);
         });
 
-        test('setting a property on the element works', function() {
+        test('wrong min agents', function() {
           // Create a test fixture
-          var element = fixture('ChangedPropertyTestFixture');
-          assert.equal(element.prop1, 'new-prop1');
-          var elementShadowRoot = element.shadowRoot;
-          var elementHeader = elementShadowRoot.querySelector('h2');
-          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+          var element = fixture('MinAgentTestFixture');
+          assert.equal(element.compatibility, false);
         });
 
+        test('min agents', function() {
+          // Create a test fixture
+          var element = fixture('MinAgentTestFixture');
+          element._getBrowser = () => { return {"name": "none", "version": "2.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+          element._getBrowser = () => { return {"name": "none", "version": "0.9"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0.1"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+          element._getBrowser = () => { return {"name": "plop", "version": "2.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+        });
+
+        test('ban agents', function() {
+          // Create a test fixture
+          var element = fixture('BanAgentTestFixture');
+          element._getBrowser = () => { return {"name": "none", "version": "2.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+          element._getBrowser = () => { return {"name": "none", "version": "0.9"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, false);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0.1"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+          element._getBrowser = () => { return {"name": "none", "version": "1.0.2"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+          element._getBrowser = () => { return {"name": "plop", "version": "2.0"}; };
+          element.ready();
+          assert.equal(element.compatibility, true);
+        });
       });
     </script>
 
