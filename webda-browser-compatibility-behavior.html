@@ -1,34 +1,32 @@
+<script type="text/javascript" src="../../bower_components/ua-parser-js/src/ua-parser.js"></script>
 <script>
-const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
-  static get properties() {
-    return {
-      detectedBrowser: {
-        type: Object,
-        notify: true
-      },
-      compatibility: {
-        type: Boolean,
-        notify: true
-      },
-      banAgents : {
-        type: Object,
-        value : []
-      },
-      minAgents : {
-        type: Object,
-        value : []
-      }
-    };
-  }
+Polymer.WebdaBrowserCompatibilityMixin = {
+  properties: {
+    detectedBrowser: {
+      type: Object,
+      notify: true
+    },
+    compatibility: {
+      type: Boolean,
+      notify: true
+    },
+    banAgents : {
+      type: Object,
+      value : []
+    },
+    minAgents : {
+      type: Object,
+      value : []
+    }
+  },
 
-  ready () {
-    super.ready();
+  ready: function() {
     this._browserVersionAnalysis();
-  }
+  },
 
   //adapted from Alexey Bass
 
-  _versionCompare (left, right) {
+  _versionCompare: function(left, right) {
       if (typeof(left) != 'string' || typeof(right) != 'string') {
           return false;
       }
@@ -47,13 +45,13 @@ const WebdaBrowserCompatibilityMixin = Sup => class extends Sup {
       }
 
       return 0;
-  }
+  },
 
-  _getBrowser() {
+  _getBrowser: function() {
     return new UAParser().getBrowser();
-  }
+  },
 
-  _browserVersionAnalysis () {
+  _browserVersionAnalysis: function () {
 
     this.detectedBrowser = this._getBrowser();
 

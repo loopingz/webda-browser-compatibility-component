@@ -4,7 +4,6 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="webda-browser-compatibility-mixin.html">
 <script type="text/javascript" src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-<script type="text/javascript" src="../../bower_components/ua-parser-js/src/ua-parser.js"></script>
 
 <dom-module id="webda-browser-compatibility-component">
   <template>
@@ -36,31 +35,33 @@
      * @polymer
      * @demo demo/index.html
      */
-    class WebdaBrowserCompatibilityComponent extends WebdaBrowserCompatibilityMixin(Polymer.Element) {
-      static get is() { return 'webda-browser-compatibility-component'; }
-      static get properties() {
-        return {
-          warningMsg: {
-            type: String,
-            value: 'Your browser is not supported'
-          },
-          compatibility: {
-            type: Boolean,
-            notify: true,
-            observer: '_showToast'
-          }
-        };
-      }
-      _showToast() {
+   (function() {
+    'use strict';
+
+    Polymer({
+      is: 'webda-browser-compatibility-component',
+      behaviors: [],
+      properties: {
+        warningMsg: {
+          type: String,
+          value: 'Your browser is not supported'
+        },
+        compatibility: {
+          type: Boolean,
+          notify: true,
+          observer: '_showToast'
+        }
+      },
+      _showToast: function() {
         if (this.compatibility) {
           return;
         }
         this.$.toast.show({text: this.warningMsg});
-      }
-      _closeToast() {
+      },
+      _closeToast: function() {
         this.$.toast.close();
       }
-    }
-    window.customElements.define(WebdaBrowserCompatibilityComponent.is, WebdaBrowserCompatibilityComponent);
+    });
+  })();
   </script>
 </dom-module>
