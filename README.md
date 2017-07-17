@@ -4,6 +4,8 @@ Project name:
 
  - webda-browser-compatibility-component from http://webda.io/
 
+[![Build Status](https://travis-ci.org/loopingz/webda-browser-compatibility-component.svg?branch=master)](https://travis-ci.org/loopingz/webda-browser-compatibility-component)
+
 Description:
 
  - polymer component that display a paper-toast message if the client-browser doesn't match your requirements
